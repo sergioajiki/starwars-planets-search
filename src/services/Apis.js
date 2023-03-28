@@ -3,5 +3,4 @@ export const getInfoFromAPI = async () => {
   const responseAPI = await requestAPI.json();
   const data = responseAPI.results;
   return data;
-//   return responseAPI;
 };
