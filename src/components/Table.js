@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
-import PlanetContext from '../context/PlanetsContext';
+import { PlanetContext } from '../context/PlanetContextProvider';
+import '../styles/Table.css';
 
 function Table() {
-  const { planetsList } = useContext(PlanetContext);
-  console.log(planetsList);
+  const {
+    // isLoading,
+    planetsList,
+  } = useContext(PlanetContext);
+
   return (
     <div>
       Table dos Planetas
@@ -26,7 +30,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {/* {
+          {
             planetsList.map((planet, index) => (
               <tr
                 key={ index }
@@ -46,7 +50,7 @@ function Table() {
                 <td>{planet.url}</td>
               </tr>
             ))
-          } */}
+          }
         </tbody>
       </table>
     </div>
