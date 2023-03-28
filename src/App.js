@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PlanetContext from './context/PlanetsContext';
 import Table from './components/Table';
@@ -14,19 +14,18 @@ function App() {
       delete element.residents;
     });
     console.log('original', response);
-
+    setPlanetsList(response);
   };
 
   useEffect(() => {
     getPlanetsInfos();
   }, []);
+  console.log(planetsList);
   return (
-    <>
-    <PlanetContext.Provider value={[]}></PlanetContext.Provider>
+    <PlanetContext.Provider value={ [] }>
       <span>Hello, App! Projeto Star Wars Trybe</span>
       <Table />
-      </PlanetContext.Provider>
-    </>
+    </PlanetContext.Provider>
 
   );
 }
