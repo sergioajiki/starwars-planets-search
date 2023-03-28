@@ -13,7 +13,7 @@ function App() {
     response.forEach((element) => {
       delete element.residents;
     });
-    console.log('original', response);
+    // console.log('original', response);
     setPlanetsList(response);
   };
 
@@ -22,8 +22,7 @@ function App() {
   }, []);
   console.log(planetsList);
   return (
-    <PlanetContext.Provider value={ [] }>
-      <span>Hello, App! Projeto Star Wars Trybe</span>
+    <PlanetContext.Provider value={ planetsList }>
       <Table />
     </PlanetContext.Provider>
 
