@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-// import PlanetContext from './context/PlanetsContext';
+import PlanetContext from './context/PlanetsContext';
 import Table from './components/Table';
 import { getInfoFromAPI } from './services/Apis';
 import './App.css';
@@ -10,7 +10,11 @@ function App() {
 
   const getPlanetsInfos = async () => {
     const response = await getInfoFromAPI();
-    console.log(response);
+    response.forEach((element) => {
+      delete element.residents;
+    });
+    console.log('original', response);
+
   };
 
   useEffect(() => {
@@ -18,8 +22,10 @@ function App() {
   }, []);
   return (
     <>
+    <PlanetContext.Provider value={[]}></PlanetContext.Provider>
       <span>Hello, App! Projeto Star Wars Trybe</span>
       <Table />
+      </PlanetContext.Provider>
     </>
 
   );
