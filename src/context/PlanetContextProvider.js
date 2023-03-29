@@ -8,7 +8,7 @@ function PlanetContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [planetsList, setPlanetsList] = useState([]);
   const [originalPlanetsList, setOriginalPlanetList] = useState([]);
-  const [filteredListPlanet, setFilteredListPlanet] = useState(planetsList);
+  const [filteredListPlanet, setFilteredListPlanet] = useState(originalPlanetsList);
   const [formData, setFormData] = useState({
     inputSearch: '',
     selectColumn: 'population',
@@ -40,8 +40,10 @@ function PlanetContextProvider({ children }) {
 
   const filterSearchByName = useCallback(() => {
     // console.log(formData);
+    // const filteredList = filteredListPlanet
     const filteredList = planetsList
-      .filter((planet) => planet.name.includes(formData.inputSearch));
+      .filter((planet) => planet.name.toLowerCase()
+        .includes(formData.inputSearch.toLowerCase()));
     setFilteredListPlanet(filteredList);
   }, [formData, planetsList]);
 
@@ -50,26 +52,26 @@ function PlanetContextProvider({ children }) {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
        > parseInt(formData.selectComparisonValue, 10));
-      console.log(formData.selectColumn, filteredList);
-      console.log(typeof (formData.selectComparisonValue));
-      setFilteredListPlanet(filteredList);
+      // console.log(formData.selectColumn, filteredList);
+      // console.log(typeof (formData.selectComparisonValue));
+      setPlanetsList(filteredList);
     }
     if (formData.selectOperator === 'igual a') {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
        === parseInt(formData.selectComparisonValue, 10));
-      console.log(formData.selectColumn, filteredList);
-      console.log(typeof (formData.selectComparisonValue));
-      setFilteredListPlanet(filteredList);
+      // console.log(formData.selectColumn, filteredList);
+      // console.log(typeof (formData.selectComparisonValue));
+      setPlanetsList(filteredList);
     }
 
     if (formData.selectOperator === 'menor que') {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
       < parseInt(formData.selectComparisonValue, 10));
-      console.log(formData.selectColumn, filteredList);
-      console.log(typeof (formData.selectComparisonValue));
-      setFilteredListPlanet(filteredList);
+      // console.log(formData.selectColumn, filteredList);
+      // console.log(typeof (formData.selectComparisonValue));
+      setPlanetsList(filteredList);
     }
   };
 

@@ -55,6 +55,7 @@ function Filters() {
       />
       <button
         data-testid="button-filter"
+        type="button"
         onClick={ filterByNumericValue }
       >
         Filtrar
