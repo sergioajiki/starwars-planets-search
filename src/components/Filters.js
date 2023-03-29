@@ -8,9 +8,10 @@ function Filters() {
     // originalPlanetsList,
     formData,
     handleInputChange,
-    selectColumn,
-    selectOperator,
-    selectComparisonValue,
+    filterByNumericValue,
+    // selectColumn,
+    // selectOperator,
+    // selectComparisonValue,
   } = useContext(PlanetContext);
   return (
     <div>
@@ -54,6 +55,7 @@ function Filters() {
       />
       <button
         data-testid="button-filter"
+        onClick={ filterByNumericValue }
       >
         Filtrar
       </button>

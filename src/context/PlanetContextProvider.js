@@ -8,7 +8,7 @@ function PlanetContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [planetsList, setPlanetsList] = useState([]);
   const [originalPlanetsList, setOriginalPlanetList] = useState([]);
-  const [filteredListPlanet, setFilteredListPlanet] = useState([]);
+  const [filteredListPlanet, setFilteredListPlanet] = useState(planetsList);
   const [formData, setFormData] = useState({
     inputSearch: '',
     selectColumn: 'population',
@@ -38,12 +38,40 @@ function PlanetContextProvider({ children }) {
     });
   }
 
-  const filterSearch = useCallback(() => {
+  const filterSearchByName = useCallback(() => {
     // console.log(formData);
     const filteredList = planetsList
       .filter((planet) => planet.name.includes(formData.inputSearch));
     setFilteredListPlanet(filteredList);
   }, [formData, planetsList]);
+
+  const filterByNumericValue = () => {
+    if (formData.selectOperator === 'maior que') {
+      const filteredList = planetsList
+        .filter((elem) => parseInt(elem[formData.selectColumn], 10)
+       > parseInt(formData.selectComparisonValue, 10));
+      console.log(formData.selectColumn, filteredList);
+      console.log(typeof (formData.selectComparisonValue));
+      setFilteredListPlanet(filteredList);
+    }
+    if (formData.selectOperator === 'igual a') {
+      const filteredList = planetsList
+        .filter((elem) => parseInt(elem[formData.selectColumn], 10)
+       === parseInt(formData.selectComparisonValue, 10));
+      console.log(formData.selectColumn, filteredList);
+      console.log(typeof (formData.selectComparisonValue));
+      setFilteredListPlanet(filteredList);
+    }
+
+    if (formData.selectOperator === 'menor que') {
+      const filteredList = planetsList
+        .filter((elem) => parseInt(elem[formData.selectColumn], 10)
+      < parseInt(formData.selectComparisonValue, 10));
+      console.log(formData.selectColumn, filteredList);
+      console.log(typeof (formData.selectComparisonValue));
+      setFilteredListPlanet(filteredList);
+    }
+  };
 
   const values = {
     isLoading,
@@ -52,6 +80,7 @@ function PlanetContextProvider({ children }) {
     handleInputChange,
     formData,
     filteredListPlanet,
+    filterByNumericValue,
   };
 
   useEffect(() => {
@@ -59,8 +88,8 @@ function PlanetContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    filterSearch();
-  }, [filterSearch]);
+    filterSearchByName();
+  }, [filterSearchByName]);
 
   return (
     <PlanetContext.Provider value={ values }>

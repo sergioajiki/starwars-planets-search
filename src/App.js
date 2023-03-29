@@ -12,6 +12,7 @@ function App() {
   return (
     <div>
       <Filters />
+      <hr />
       {
         isLoading
           ? <h1>Loading...</h1>
