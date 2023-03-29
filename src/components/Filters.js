@@ -9,6 +9,7 @@ function Filters() {
     formData,
     handleInputChange,
     filterByNumericValue,
+    tagList,
     // selectColumn,
     // selectOperator,
     // selectComparisonValue,
@@ -30,11 +31,16 @@ function Filters() {
         value={ formData.selectColumn }
         onChange={ handleInputChange }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {
+          tagList.map((tag, index) => (
+            <option
+              key={ index }
+              value={ [tag] }
+            >
+              {[tag]}
+            </option>
+          ))
+        }
       </select>
       <select
         data-testid="comparison-filter"
