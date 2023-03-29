@@ -8,8 +8,13 @@ function PlanetContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [planetsList, setPlanetsList] = useState([]);
   const [originalPlanetsList, setOriginalPlanetList] = useState([]);
-  const [formData, setFormData] = useState('');
   const [filteredListPlanet, setFilteredListPlanet] = useState([]);
+  const [formData, setFormData] = useState({
+    inputSearch: '',
+    selectColumn: 'population',
+    selectOperator: 'maior que',
+    selectComparisonValue: 0,
+  });
 
   const getPlanetsInfos = async () => {
     setIsLoading(true);
@@ -25,17 +30,18 @@ function PlanetContextProvider({ children }) {
   };
 
   function handleInputChange({ target }) {
-    setFormData(target.value);
-    // setFormData({
-    //   ...formData,
-    //   [name]: value,
-    // });
+    // setFormData(target.value);
+    const { name, value } = target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   }
 
   const filterSearch = useCallback(() => {
     // console.log(formData);
     const filteredList = planetsList
-      .filter((planet) => planet.name.includes(formData));
+      .filter((planet) => planet.name.includes(formData.inputSearch));
     setFilteredListPlanet(filteredList);
   }, [formData, planetsList]);
 

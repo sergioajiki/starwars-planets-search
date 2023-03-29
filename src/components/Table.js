@@ -7,20 +7,20 @@ function Table() {
     // planetsList,
     filteredListPlanet,
     // originalPlanetsList,
-    formData,
-    handleInputChange,
+    // formData,
+    // handleInputChange,
   } = useContext(PlanetContext);
 
   return (
     <div>
       Table dos Planetas
-      <input
+      {/* <input
         data-testid="name-filter"
         placeholder="Type your serach"
         name="inputSearch"
         value={ formData.inputSearch }
         onChange={ handleInputChange }
-      />
+      /> */}
       <table>
         <thead>
           <tr>
