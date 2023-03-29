@@ -4,13 +4,23 @@ import '../styles/Table.css';
 
 function Table() {
   const {
-    // isLoading,
-    planetsList,
+    // planetsList,
+    filteredListPlanet,
+    // originalPlanetsList,
+    formData,
+    handleInputChange,
   } = useContext(PlanetContext);
 
   return (
     <div>
       Table dos Planetas
+      <input
+        data-testid="name-filter"
+        placeholder="Type your serach"
+        name="inputSearch"
+        value={ formData.inputSearch }
+        onChange={ handleInputChange }
+      />
       <table>
         <thead>
           <tr>
@@ -31,7 +41,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            planetsList.map((planet, index) => (
+            filteredListPlanet.map((planet, index) => (
               <tr
                 key={ index }
               >
