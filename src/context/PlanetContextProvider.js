@@ -14,12 +14,15 @@ function PlanetContextProvider({ children }) {
   const [filteredListPlanet, setFilteredListPlanet] = useState(originalPlanetsList);
   const [tagList, setTagList] = useState(tagListValues);
   const [filtersRemoved, setFiltersRemoved] = useState([]);
+  const [order, setOrderList] = useState({
+    column: 'population',
+    sort: 'ASC',
+  });
   const [formData, setFormData] = useState({
     inputSearch: '',
     selectColumn: 'population',
     selectOperator: 'maior que',
     selectComparisonValue: 0,
-    orderColumn: 'population',
   });
 
   const getPlanetsInfos = async () => {
@@ -34,6 +37,15 @@ function PlanetContextProvider({ children }) {
     setFilteredListPlanet(response);
     setIsLoading(false);
   };
+
+  function handleInputOrder({ target }) {
+    // setFormData(target.value);
+    const { name, value } = target;
+    setOrderList({
+      ...order,
+      [name]: value,
+    });
+  }
 
   function handleInputChange({ target }) {
     // setFormData(target.value);
@@ -121,6 +133,7 @@ function PlanetContextProvider({ children }) {
     planetsList,
     originalPlanetsList,
     handleInputChange,
+    handleInputOrder,
     formData,
     filteredListPlanet,
     filterByNumericValue,
@@ -129,6 +142,7 @@ function PlanetContextProvider({ children }) {
     recoverFilter,
     resetTags,
     tagListValues,
+    order,
   };
 
   useEffect(() => {

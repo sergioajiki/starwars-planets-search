@@ -14,6 +14,8 @@ function Filters() {
     recoverFilter,
     resetTags,
     tagListValues,
+    handleInputOrder,
+    order,
     // selectColumn,
     // selectOperator,
     // selectComparisonValue,
@@ -79,9 +81,9 @@ function Filters() {
       </button>
       <select
         data-testid="column-sort"
-        name="orderColumn"
-        value={ formData.orderColumn }
-        onChange={ handleInputChange }
+        name="column"
+        value={ order.column }
+        onChange={ handleInputOrder }
       >
         {
           tagListValues.map((tag, index) => (
@@ -100,8 +102,9 @@ function Filters() {
           data-testid="column-sort-input-asc"
           type="radio"
           id="ascendente"
-          name="order"
+          name="sort"
           value="ASC"
+          onChange={ handleInputOrder }
         />
         Ascendente
       </label>
@@ -110,13 +113,15 @@ function Filters() {
           data-testid="column-sort-input-desc"
           type="radio"
           id="descendente"
-          name="order"
+          name="sort"
           value="DESC"
+          onChange={ handleInputOrder }
         />
         Descendente
       </label>
       <button
         data-testid="column-sort-button"
+
       >
         Ordenar
       </button>
