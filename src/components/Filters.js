@@ -10,6 +10,9 @@ function Filters() {
     handleInputChange,
     filterByNumericValue,
     tagList,
+    filtersRemoved,
+    recoverFilter,
+    resetTags,
     // selectColumn,
     // selectOperator,
     // selectComparisonValue,
@@ -66,6 +69,40 @@ function Filters() {
       >
         Filtrar
       </button>
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ resetTags }
+      >
+        Remover todas filtragens
+      </button>
+      <br />
+      {
+        filtersRemoved.length === 0
+          ? <h3>No filter</h3>
+          : filtersRemoved.map((element, index) => (
+
+            <span
+              key={ index }
+              data-testid="filter"
+            >
+              {element.selectColumn}
+              {element.selectOperator}
+              {element.selectComparisonValue}
+
+              <button
+                type="button"
+                onClick={
+                  () => recoverFilter(element.selectColumn, element.previousList)
+                }
+              >
+                X
+              </button>
+              <br />
+            </span>
+          ))
+      }
+
     </div>
   );
 }

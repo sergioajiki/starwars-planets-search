@@ -13,6 +13,7 @@ function PlanetContextProvider({ children }) {
   const [originalPlanetsList, setOriginalPlanetList] = useState([]);
   const [filteredListPlanet, setFilteredListPlanet] = useState(originalPlanetsList);
   const [tagList, setTagList] = useState(tagListValues);
+  const [filtersRemoved, setFiltersRemoved] = useState([]);
   const [formData, setFormData] = useState({
     inputSearch: '',
     selectColumn: 'population',
@@ -42,21 +43,49 @@ function PlanetContextProvider({ children }) {
     });
   }
 
+  const recoverFilter = (selectColumn, previousList) => {
+    console.log(previousList);
+    console.log(filtersRemoved);
+    const newFiltersRemoved = filtersRemoved
+      .filter((elem) => elem.selectColumn !== selectColumn);
+    setFilteredListPlanet(previousList);
+    console.log(newFiltersRemoved);
+    setFiltersRemoved(newFiltersRemoved);
+  };
+
   const removeTag = () => {
-    console.log(formData.selectColumn);
+    // console.log(filtersRemoved);
+    // console.log(formData.selectColumn);
     const newTagList = tagList.filter((tag) => tag !== formData.selectColumn);
+    const infosRemovedFilters = {
+      selectColumn: formData.selectColumn,
+      selectOperator: formData.selectOperator,
+      selectComparisonValue: formData.selectComparisonValue,
+      previousList: filteredListPlanet,
+    };
+
     setFormData({
       ...formData,
-      selectColumn: `${newTagList[0]}`,
+      // selectColumn: `${newTagList[0]}`,
+      selectColumn: newTagList[0],
     });
     setTagList(newTagList);
-    console.log('depois de atualizar', formData.selectColumn);
-    console.log(newTagList[0]);
+
+    setFiltersRemoved([
+      ...filtersRemoved,
+      infosRemovedFilters,
+    ]);
+    // console.log('depois de atualizar', formData.selectColumn);
+    // console.log(newTagList[0]);
+    // console.log('atualizado', filtersRemoved);
+  };
+
+  const resetTags = () => {
+    setTagList(tagListValues);
+    setFilteredListPlanet(originalPlanetsList);
   };
 
   const filterSearchByName = useCallback(() => {
-    // console.log(formData);
-    // const filteredList = filteredListPlanet
     const filteredList = planetsList
       .filter((planet) => planet.name.toLowerCase()
         .includes(formData.inputSearch.toLowerCase()));
@@ -68,8 +97,6 @@ function PlanetContextProvider({ children }) {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
        > parseInt(formData.selectComparisonValue, 10));
-      // console.log(formData.selectColumn, filteredList);
-      // console.log(typeof (formData.selectComparisonValue));
       setPlanetsList(filteredList);
       removeTag();
     }
@@ -77,18 +104,13 @@ function PlanetContextProvider({ children }) {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
        === parseInt(formData.selectComparisonValue, 10));
-      // console.log(formData.selectColumn, filteredList);
-      // console.log(typeof (formData.selectComparisonValue));
       setPlanetsList(filteredList);
       removeTag();
     }
-
     if (formData.selectOperator === 'menor que') {
       const filteredList = planetsList
         .filter((elem) => parseInt(elem[formData.selectColumn], 10)
       < parseInt(formData.selectComparisonValue, 10));
-      // console.log(formData.selectColumn, filteredList);
-      // console.log(typeof (formData.selectComparisonValue));
       setPlanetsList(filteredList);
       removeTag();
     }
@@ -103,6 +125,9 @@ function PlanetContextProvider({ children }) {
     filteredListPlanet,
     filterByNumericValue,
     tagList,
+    filtersRemoved,
+    recoverFilter,
+    resetTags,
   };
 
   useEffect(() => {
@@ -112,10 +137,6 @@ function PlanetContextProvider({ children }) {
   useEffect(() => {
     filterSearchByName();
   }, [filterSearchByName]);
-
-  // useEffect(() => {
-  //   removeTag();
-  // }, [removeTag]);
 
   return (
     <PlanetContext.Provider value={ values }>
