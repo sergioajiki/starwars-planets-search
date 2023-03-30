@@ -1,0 +1,88 @@
+.inputSearch {
+  background-color: black;
+  border: 1px white solid;
+  border-radius: 5px;
+  color: white;
+  height: 2em;
+  max-width: 670px;
+  width: 100%;
+}
+
+label {
+  color: #aeaeae;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8em;
+  width: 130px;
+}
+
+.valor {
+  background-color: black;
+  border: 1px white solid;
+  border-radius: 5px;
+  color: white;
+  height: 2em;
+  width: 90px;
+}
+
+button {
+  background-color: black;
+  border: 1px yellow solid;
+  border-radius: 5px;
+  color: yellow;
+  cursor: pointer;
+  font-weight: 700;
+  height: 90px;
+  width: 90px;
+}
+
+.ascendente, .descendente {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  width: 100px;
+}
+
+.numericFilter {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  max-width: 670px;
+}
+
+.orderFilter {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px;
+  max-width: 670px;
+}
+
+.upDown {
+  font-size: 1.3em;
+  margin-right: 10px;
+}
+
+.killButton {
+  align-items: center;
+  background-color: red;
+  border: 1px rgb(41, 10, 10) solid;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 700;
+  height: 1.5em;
+  justify-content: center;
+  width: 1.5em;
+}
+
+/* input[type="radio"] {
+  background-color: yellow;
+  color: aqua;
+  margin: 0;
+  height: 2em;
+  width: 2em;
+} */

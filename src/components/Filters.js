@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { PlanetContext } from '../context/PlanetContextProvider';
+import '../styles/Filters.css';
 
 function Filters() {
   const {
@@ -16,116 +17,130 @@ function Filters() {
     tagListValues,
     handleInputOrder,
     order,
+    sortPlanetList,
     // selectColumn,
     // selectOperator,
     // selectComparisonValue,
   } = useContext(PlanetContext);
   return (
     <div>
-      Filters
       <input
         data-testid="name-filter"
-        placeholder="Type your serach"
+        placeholder="Type your search"
         name="inputSearch"
         value={ formData.inputSearch }
         onChange={ handleInputChange }
+        className="inputSearch"
       />
-      <br />
-      <select
-        data-testid="column-filter"
-        name="selectColumn"
-        value={ formData.selectColumn }
-        onChange={ handleInputChange }
-      >
-        {
-          tagList.map((tag, index) => (
-            <option
-              key={ index }
-              value={ [tag] }
-            >
-              {[tag]}
-            </option>
-          ))
-        }
-      </select>
-      <select
-        data-testid="comparison-filter"
-        name="selectOperator"
-        value={ formData.selectOperator }
-        onChange={ handleInputChange }
-      >
-        <option>maior que</option>
-        <option>menor que</option>
-        <option>igual a</option>
-      </select>
-      <input
-        type="number"
-        data-testid="value-filter"
-        name="selectComparisonValue"
-        value={ formData.selectComparisonValue }
-        onChange={ handleInputChange }
-      />
-      <button
-        data-testid="button-filter"
-        type="button"
-        onClick={ filterByNumericValue }
-      >
-        Filtrar
-      </button>
-      <button
-        data-testid="button-remove-filters"
-        type="button"
-        onClick={ resetTags }
-      >
-        Remover todas filtragens
-      </button>
-      <select
-        data-testid="column-sort"
-        name="column"
-        value={ order.column }
-        onChange={ handleInputOrder }
-      >
-        {
-          tagListValues.map((tag, index) => (
-            <option
-              key={ index }
-              value={ [tag] }
-            >
-              {[tag]}
-            </option>
-          ))
-        }
-      </select>
-
-      <label htmlFor="ascendente">
+      <span className="numericFilter">
+        <label htmlFor="selectColumn">
+          Coluna
+          <select
+            data-testid="column-filter"
+            name="selectColumn"
+            value={ formData.selectColumn }
+            onChange={ handleInputChange }
+            id="selectColumn"
+          >
+            {
+              tagList.map((tag, index) => (
+                <option
+                  key={ index }
+                  value={ [tag] }
+                >
+                  {[tag]}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <label htmlFor="selectOperator">
+          Operador
+          <select
+            data-testid="comparison-filter"
+            name="selectOperator"
+            value={ formData.selectOperator }
+            onChange={ handleInputChange }
+            id="selectOperator"
+          >
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
+          </select>
+        </label>
         <input
-          data-testid="column-sort-input-asc"
-          type="radio"
-          id="ascendente"
-          name="sort"
-          value="ASC"
-          onChange={ handleInputOrder }
+          type="number"
+          data-testid="value-filter"
+          name="selectComparisonValue"
+          value={ formData.selectComparisonValue }
+          onChange={ handleInputChange }
+          className="valor"
         />
-        Ascendente
-      </label>
-      <label htmlFor="descendente">
-        <input
-          data-testid="column-sort-input-desc"
-          type="radio"
-          id="descendente"
-          name="sort"
-          value="DESC"
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ filterByNumericValue }
+        >
+          Filtrar
+        </button>
+        <button
+          data-testid="button-remove-filters"
+          type="button"
+          onClick={ resetTags }
+        >
+          Remover todas filtragens
+        </button>
+      </span>
+      <span className="orderFilter">
+        <select
+          data-testid="column-sort"
+          name="column"
+          value={ order.column }
           onChange={ handleInputOrder }
-        />
-        Descendente
-      </label>
-      <button
-        data-testid="column-sort-button"
-
-      >
-        Ordenar
-      </button>
-      <br />
+        >
+          {
+            tagListValues.map((tag, index) => (
+              <option
+                key={ index }
+                value={ [tag] }
+              >
+                {[tag]}
+              </option>
+            ))
+          }
+        </select>
+        <span className="upDown">
+          <label htmlFor="ascendente" className="ascendente">
+            <input
+              data-testid="column-sort-input-asc"
+              type="radio"
+              id="ascendente"
+              name="sort"
+              value="ASC"
+              onChange={ handleInputOrder }
+              defaultChecked
+            />
+            Ascendente
+          </label>
+          <label htmlFor="descendente" className="descendente">
+            <input
+              data-testid="column-sort-input-desc"
+              type="radio"
+              id="descendente"
+              name="sort"
+              value="DESC"
+              onChange={ handleInputOrder }
+            />
+            Descendente
+          </label>
+        </span>
+        <button
+          data-testid="column-sort-button"
+          onClick={ sortPlanetList }
+        >
+          Ordenar
+        </button>
+      </span>
       {
         filtersRemoved.length === 0
           ? <h3>No filter</h3>
@@ -136,14 +151,17 @@ function Filters() {
               data-testid="filter"
             >
               {element.selectColumn}
+              {' '}
               {element.selectOperator}
+              {' '}
               {element.selectComparisonValue}
-
+              {' '}
               <button
                 type="button"
                 onClick={
                   () => recoverFilter(element.selectColumn, element.previousList)
                 }
+                className="killButton"
               >
                 X
               </button>

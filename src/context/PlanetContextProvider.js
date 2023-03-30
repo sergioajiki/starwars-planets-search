@@ -95,6 +95,7 @@ function PlanetContextProvider({ children }) {
   const resetTags = () => {
     setTagList(tagListValues);
     setFilteredListPlanet(originalPlanetsList);
+    setFiltersRemoved([]);
   };
 
   const filterSearchByName = useCallback(() => {
@@ -128,6 +129,36 @@ function PlanetContextProvider({ children }) {
     }
   };
 
+  const sortPlanetList = useCallback(() => {
+    console.log('vai ordenar', filteredListPlanet);
+    console.log(order.column);
+    if (order.sort === 'ASC') {
+      const sortedList = filteredListPlanet
+        .sort((a, b) => parseInt(a[order.column], 10) - parseInt(b[order.column], 10));
+      console.log(sortedList);
+      setFilteredListPlanet(sortedList);
+    }
+    if (order.sort === 'DESC') {
+      const sortedList = filteredListPlanet
+        .sort((a, b) => parseInt(b[order.column], 10) - parseInt(a[order.column], 10));
+      console.log(sortedList);
+      setFilteredListPlanet(sortedList);
+    }
+  }, [filteredListPlanet, order.column, order.sort]);
+  // }, [filteredListPlanet, order.column, order.sort]);
+
+  useEffect(() => {
+    getPlanetsInfos();
+  }, []);
+
+  useEffect(() => {
+    filterSearchByName();
+  });
+
+  useEffect(() => {
+    sortPlanetList();
+  }, [sortPlanetList]);
+
   const values = {
     isLoading,
     planetsList,
@@ -143,15 +174,12 @@ function PlanetContextProvider({ children }) {
     resetTags,
     tagListValues,
     order,
+    sortPlanetList,
   };
 
-  useEffect(() => {
-    getPlanetsInfos();
-  }, []);
-
-  useEffect(() => {
-    filterSearchByName();
-  }, [filterSearchByName]);
+  // useEffect(() => {
+  //   sortPlanetList();
+  // }, [sortPlanetList]);
 
   return (
     <PlanetContext.Provider value={ values }>

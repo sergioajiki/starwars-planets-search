@@ -10,7 +10,7 @@ import './App.css';
 function App() {
   const { isLoading } = useContext(PlanetContext);
   return (
-    <div>
+    <div className="appContainer">
       <Filters />
       <hr />
       {

@@ -1,3 +1,21 @@
+/* .tableContainer {
+  border: 1px white solid;
+  border-radius: 5px;
+  padding: 1em;
+} */
+
 td {
-  border: 1px black solid;
+  border-bottom: 1px white solid;
+  color: #aeaeae;
+  text-align: center;
+  word-break: break-all;
+}
+
+th {
+  background-color: #707070;
+}
+
+.colFimls {
+  min-width: 190px;
+  width: 190px;
 }

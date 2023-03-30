@@ -12,7 +12,7 @@ function Table() {
   } = useContext(PlanetContext);
 
   return (
-    <div>
+    <div className="tableContainer">
       Table dos Planetas
       {/* <input
         data-testid="name-filter"
@@ -33,7 +33,7 @@ function Table() {
             <th>Terrain</th>
             <th>Surface Water</th>
             <th>Population</th>
-            <th>Films</th>
+            <th className="colFimls">Films</th>
             <th>Created</th>
             <th>Edited</th>
             <th>URL</th>
