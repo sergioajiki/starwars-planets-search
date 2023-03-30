@@ -19,6 +19,7 @@ function PlanetContextProvider({ children }) {
     selectColumn: 'population',
     selectOperator: 'maior que',
     selectComparisonValue: 0,
+    orderColumn: 'population',
   });
 
   const getPlanetsInfos = async () => {
@@ -48,14 +49,17 @@ function PlanetContextProvider({ children }) {
     console.log(filtersRemoved);
     const newFiltersRemoved = filtersRemoved
       .filter((elem) => elem.selectColumn !== selectColumn);
+    setTagList([
+      ...tagList,
+      selectColumn,
+    ]);
     setFilteredListPlanet(previousList);
+
     console.log(newFiltersRemoved);
     setFiltersRemoved(newFiltersRemoved);
   };
 
   const removeTag = () => {
-    // console.log(filtersRemoved);
-    // console.log(formData.selectColumn);
     const newTagList = tagList.filter((tag) => tag !== formData.selectColumn);
     const infosRemovedFilters = {
       selectColumn: formData.selectColumn,
@@ -66,7 +70,6 @@ function PlanetContextProvider({ children }) {
 
     setFormData({
       ...formData,
-      // selectColumn: `${newTagList[0]}`,
       selectColumn: newTagList[0],
     });
     setTagList(newTagList);
@@ -75,9 +78,6 @@ function PlanetContextProvider({ children }) {
       ...filtersRemoved,
       infosRemovedFilters,
     ]);
-    // console.log('depois de atualizar', formData.selectColumn);
-    // console.log(newTagList[0]);
-    // console.log('atualizado', filtersRemoved);
   };
 
   const resetTags = () => {
@@ -128,6 +128,7 @@ function PlanetContextProvider({ children }) {
     filtersRemoved,
     recoverFilter,
     resetTags,
+    tagListValues,
   };
 
   useEffect(() => {

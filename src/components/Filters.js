@@ -13,6 +13,7 @@ function Filters() {
     filtersRemoved,
     recoverFilter,
     resetTags,
+    tagListValues,
     // selectColumn,
     // selectOperator,
     // selectComparisonValue,
@@ -75,6 +76,49 @@ function Filters() {
         onClick={ resetTags }
       >
         Remover todas filtragens
+      </button>
+      <select
+        data-testid="column-sort"
+        name="orderColumn"
+        value={ formData.orderColumn }
+        onChange={ handleInputChange }
+      >
+        {
+          tagListValues.map((tag, index) => (
+            <option
+              key={ index }
+              value={ [tag] }
+            >
+              {[tag]}
+            </option>
+          ))
+        }
+      </select>
+
+      <label htmlFor="ascendente">
+        <input
+          data-testid="column-sort-input-asc"
+          type="radio"
+          id="ascendente"
+          name="order"
+          value="ASC"
+        />
+        Ascendente
+      </label>
+      <label htmlFor="descendente">
+        <input
+          data-testid="column-sort-input-desc"
+          type="radio"
+          id="descendente"
+          name="order"
+          value="DESC"
+        />
+        Descendente
+      </label>
+      <button
+        data-testid="column-sort-button"
+      >
+        Ordenar
       </button>
       <br />
       {
