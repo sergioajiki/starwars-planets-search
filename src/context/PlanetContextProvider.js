@@ -177,10 +177,6 @@ function PlanetContextProvider({ children }) {
     sortPlanetList,
   };
 
-  // useEffect(() => {
-  //   sortPlanetList();
-  // }, [sortPlanetList]);
-
   return (
     <PlanetContext.Provider value={ values }>
       {children}

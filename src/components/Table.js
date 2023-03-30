@@ -13,14 +13,6 @@ function Table() {
 
   return (
     <div className="tableContainer">
-      Table dos Planetas
-      {/* <input
-        data-testid="name-filter"
-        placeholder="Type your serach"
-        name="inputSearch"
-        value={ formData.inputSearch }
-        onChange={ handleInputChange }
-      /> */}
       <table>
         <thead>
           <tr>
