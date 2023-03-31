@@ -129,17 +129,24 @@ describe('testa filtragem da tabela', () => {
   //     // expect(TableHeaderName).toHaveLength(2);
      
   //   }, { timeout: 10000 });
-  
-  // });
+  //   });
   test('testa a classificação', async () => {
     render(<App />);
     await waitFor( async () => {
       const columnSortButton = screen.getByTestId('column-sort-button');
+      const buttonRadioAsc = screen.getByTestId('column-sort-input-desc');
+      const buttonRadioDesc = screen.getByTestId('column-sort-input-desc');
+      userEvent.click(buttonRadioDesc);
       userEvent.click(columnSortButton);
-      const newTableHeaderName = await screen.findAllByTestId('planet-name');
-      expect(newTableHeaderName).toHaveLength(10);
+      const DescTableHeaderName = await screen.findAllByTestId('planet-name');
+      expect(DescTableHeaderName).toHaveLength(10);
+      userEvent.click(buttonRadioAsc);
+      userEvent.click(columnSortButton);
+      const AscTableHeaderName = await screen.findAllByTestId('planet-name');
+      expect(AscTableHeaderName).toHaveLength(10);
     }, { timeout: 5000 });
   });
+
 });
   
 // test('', () => {});

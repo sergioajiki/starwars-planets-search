@@ -31,7 +31,7 @@ function PlanetContextProvider({ children }) {
     response.forEach((element) => {
       delete element.residents;
     });
-    // console.log('original', response);
+
     setPlanetsList(response);
     setOriginalPlanetList(response);
     setFilteredListPlanet(response);
@@ -39,7 +39,6 @@ function PlanetContextProvider({ children }) {
   };
 
   function handleInputOrder({ target }) {
-    // setFormData(target.value);
     const { name, value } = target;
     setOrderList({
       ...order,
@@ -125,19 +124,23 @@ function PlanetContextProvider({ children }) {
   };
 
   const sortPlanetList = useCallback((column, sort) => {
-    // console.log('vai ordenar', filteredListPlanet);
-    // console.log(column, sort);
+    const MINUSONE = -1;
     if (sort === 'ASC') {
       const sortedList = filteredListPlanet
-        .sort((a, b) => parseInt(a[column], 10) - parseInt(b[column], 10));
-      // console.log('ascendente', sortedList);
+        .sort((a, b) => {
+          if (b[column] === 'unknown') return MINUSONE;
+          return parseInt(a[column], 10) - parseInt(b[column], 10);
+        });
       setFilteredListPlanet(sortedList);
       setPlanetsList(sortedList);
     }
+
     if (sort === 'DESC') {
       const sortedList = filteredListPlanet
-        .sort((a, b) => parseInt(b[column], 10) - parseInt(a[column], 10));
-      // console.log('descendente', sortedList);
+        .sort((a, b) => {
+          if (b[column] === 'unknown') return MINUSONE;
+          return parseInt(b[column], 10) - parseInt(a[column], 10);
+        });
       setFilteredListPlanet(sortedList);
       setPlanetsList(sortedList);
     }
