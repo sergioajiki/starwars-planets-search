@@ -23,7 +23,7 @@ function Filters() {
     // selectComparisonValue,
   } = useContext(PlanetContext);
   return (
-    <div>
+    <div className="componentFilter">
       <input
         data-testid="name-filter"
         placeholder="Type your search"
@@ -32,7 +32,7 @@ function Filters() {
         onChange={ handleInputChange }
         className="inputSearch"
       />
-      <span className="numericFilter">
+      <span className="filters">
         <label htmlFor="selectColumn">
           Coluna
           <select
@@ -89,27 +89,32 @@ function Filters() {
           type="button"
           onClick={ resetTags }
         >
-          Remover todas filtragens
+          Remover Filtragens
         </button>
-      </span>
-      <span className="orderFilter">
-        <select
-          data-testid="column-sort"
-          name="column"
-          value={ order.column }
-          onChange={ handleInputOrder }
+        <label
+          htmlFor="columnSort"
         >
-          {
-            tagListValues.map((tag, index) => (
-              <option
-                key={ index }
-                value={ [tag] }
-              >
-                {[tag]}
-              </option>
-            ))
-          }
-        </select>
+          Ordenar
+
+          <select
+            data-testid="column-sort"
+            name="column"
+            value={ order.column }
+            onChange={ handleInputOrder }
+            id="columnSort"
+          >
+            {
+              tagListValues.map((tag, index) => (
+                <option
+                  key={ index }
+                  value={ [tag] }
+                >
+                  {[tag]}
+                </option>
+              ))
+            }
+          </select>
+        </label>
         <span className="upDown">
           <label htmlFor="ascendente" className="ascendente">
             <input

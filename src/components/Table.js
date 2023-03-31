@@ -12,7 +12,7 @@ function Table() {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th className="colName">Name</th>
             <th>Rotation Period</th>
             <th>Orbital Period</th>
             <th>Diameter</th>
