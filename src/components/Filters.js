@@ -89,13 +89,12 @@ function Filters() {
           type="button"
           onClick={ resetTags }
         >
-          Remover Filtragens
+          Remover Filtros
         </button>
         <label
           htmlFor="columnSort"
         >
           Ordenar
-
           <select
             data-testid="column-sort"
             name="column"

@@ -13,12 +13,12 @@ function App() {
         <hr />
         <Table />
         {/* {
-          isLoading
-            ? <h1>Loading...</h1>
-            : (
-              <Table />
-            )
-        } */}
+        isLoading
+          ? <h1>Loading...</h1>
+          : (
+            <Table />
+          )
+      } */}
       </PlanetContextProvider>
     </div>
   );

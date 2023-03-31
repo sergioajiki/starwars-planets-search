@@ -1,14 +1,47 @@
 import React from 'react';
-import { getNodeText, render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { getNodeText, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { planetsApiSim } from './Mocks/planetApi';
+import PlanetContextProvider from '../context/PlanetContextProvider';
 import App from '../App';
 
-jest.setTimeout(10000);
+// jest.setTimeout(10000);
 // test('', () => {});
 // await waitFor( async () => {}, { timeout: 5000 });
+// beforeEach(() => {})
+// act (() => {})
+
+beforeEach(() => {
+// global.fetch = jest.fn().mockResolvedValue({
+//   json: jest.fn().mockResolvedValue(planetsApiSim)
+// })  
+
+  jest.spyOn(global, 'fetch').mockResolvedValue({
+    json: jest.fn().mockResolvedValue(planetsApiSim)
+  }) 
+ // render(
+  //   <PlanetContextProvider>
+  //      <App />
+  //   </PlanetContextProvider>
+  //  ) 
+
+  render(<App />), {wrapper: PlanetContextProvider};  
+  // act (() => {
+  //  render(<App />), {wrapper: PlanetContextProvider};   
+  // }) 
+ 
+// act (() => {})  
+// await waitForElementToBeRemoved(() => screen.queryByText('Loading...'))
+})
+
+afterEach(() => {
+  jest.resetAllMocks();
+})
+ 
 describe('testa o componente Table', () => {
   test('verifica se as colunas são renderizadas corretamente', () => {
-    render(<App />);
+    // render(<App />);
 
     const tableHeader = screen.getAllByRole('columnheader').map(getNodeText);
     // console.log(tableHeader); 
@@ -26,7 +59,7 @@ describe('testa o componente Table', () => {
 
 describe('testa componente Filter', () => {
   test('verifica se os seletores de filtro são renderizados', () => {
-    render(<App />);
+    // render(<App />);
     const inputSearch = screen.getByTestId('name-filter');
     expect(inputSearch).toBeInTheDocument();
     const columnFilter = screen.getByTestId('column-filter');
@@ -50,15 +83,18 @@ describe('testa componente Filter', () => {
   });
 
   test('Verifica os seletores de coluna filtros numericos', () => {
-    render(<App />);
+    // render(<App />);
+    
     const optionsColumnTagNum = screen.getAllByTestId('column-tag-num').map(getNodeText);
     // console.log(optionsColumnTagNum);
     expect(optionsColumnTagNum).toHaveLength(5);
     expect(optionsColumnTagNum[0]).toBe('population')
 
     const buttonFilter = screen.getByTestId('button-filter');
+
     userEvent.click(buttonFilter)
-    userEvent.click(buttonFilter)
+    userEvent.click(buttonFilter) 
+
     const newOptionsColumnTagNum = screen.getAllByTestId('column-tag-num').map(getNodeText);
     expect(newOptionsColumnTagNum).toHaveLength(3);
     expect(newOptionsColumnTagNum[0]).toBe('diameter')
@@ -80,74 +116,112 @@ describe('testa componente Filter', () => {
     const resetOptionsColumnTagNum = screen.getAllByTestId('column-tag-num').map(getNodeText);
     expect(resetOptionsColumnTagNum).toHaveLength(5);
     expect(resetOptionsColumnTagNum[0]).toBe('population')
+    
   });
 });
 
 describe('testa filtragem da tabela', () => {
-  test('testa busca por nome', async () => {
-    render(<App />);
-    await waitFor( async() => {
-      const tableHeaderName =  await screen.findAllByTestId('planet-name');
-      // console.log(tableHeaderName.length);
-      expect(tableHeaderName).toHaveLength(10);
-      const inputSearch = screen.getByTestId('name-filter');
-      userEvent.type(inputSearch, 'oo')
+  test('verifica se a API é chamada', async () => {
+    expect(global.fetch).toHaveBeenCalledWith('https://swapi.dev/api/planets');
+  });
 
-      const newTableHeaderName = await screen.findAllByTestId('planet-name');
-      expect(newTableHeaderName).toHaveLength(2);
+  test('testa busca por nome', async () => {
+    // render(<App />);
+    // await waitFor( async() => {
+    const tableHeaderName =  await screen.findAllByTestId('planet-name');
+    // console.log(tableHeaderName.length);
+    expect(tableHeaderName).toHaveLength(10);
+    const inputSearch = screen.getByTestId('name-filter');
+    userEvent.type(inputSearch, 'oo')
+
+    const newTableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(newTableHeaderName).toHaveLength(2);
      
-    }, { timeout: 2000 });
+    // }, { timeout: 2000 });
   });  
 
   test('testa busca por nome 2', async() => {
-    render(<App />);
-    await waitFor( async () => {
-      const inputSearch = screen.getByTestId('name-filter');
-      userEvent.type(inputSearch, 'Tatooine');
-      const planetTatooine = await screen.findByText('Tatooine');
-      expect(planetTatooine).toBeInTheDocument();
-    }, { timeout: 2000 });
+    // render(<App />);
+    // await waitFor( async () => {
+    const inputSearch = screen.getByTestId('name-filter');
+    userEvent.type(inputSearch, 'Tatooine');
+    const planetTatooine = await screen.findByText('Tatooine');
+    expect(planetTatooine).toBeInTheDocument();
+    // }, { timeout: 2000 });
   });
 
-  // test('testa filtro numerico "maior que" selecionando diameter', async () => {
-  //   render(<App />);
-  //   await waitFor( async () => {
-  //     const columnFilter = screen.getByTestId('column-filter');
-  //     const comparisonFilter = screen.getByTestId('comparison-filter');
-  //     const valueFilter = screen.getByTestId('value-filter');
-  //     const buttonFilter = screen.getByTestId('button-filter');
+  test('testa filtro numerico "maior que" selecionando diameter', async () => {
+    // render(<App />);
+    // await waitFor( async () => {
+    const columnFilter = screen.getByTestId('column-filter');
+    const comparisonFilter = screen.getByTestId('comparison-filter');
+    const valueFilter = screen.getByTestId('value-filter');
+    const buttonFilter = screen.getByTestId('button-filter');
   
-  //     userEvent.selectOptions(columnFilter, 'diameter');
-  //     userEvent.selectOptions(comparisonFilter, 'maior que');
-  //     userEvent.clear(valueFilter);
-  //     userEvent.type(valueFilter, '15000'); 
-  //     userEvent.click(buttonFilter);
+    userEvent.selectOptions(columnFilter, 'diameter');
+    userEvent.selectOptions(comparisonFilter, 'maior que');
+    userEvent.clear(valueFilter);
+    userEvent.type(valueFilter, '15000'); 
+    userEvent.click(buttonFilter);
   
-  //     const planetBespin = await screen.findByText('Bespin');
-  //     expect(planetBespin).toBeInTheDocument();
-  //     // const TableHeaderName = await screen.findAllByTestId('planet-name');
-  //     // expect(TableHeaderName).toHaveLength(2);
-     
-  //   }, { timeout: 10000 });
-  //   });
+    const planetBespin = await screen.findByText('Bespin');
+    expect(planetBespin).toBeInTheDocument();
+    const TableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(TableHeaderName).toHaveLength(2);     
+    // }, { timeout: 2000 });
+    });
+
+  test('teste filtro numerico "igual a" selecionando orbital_period', async () => {
+    const columnFilter = screen.getByTestId('column-filter');
+    const comparisonFilter = screen.getByTestId('comparison-filter');
+    const valueFilter = screen.getByTestId('value-filter');
+    const buttonFilter = screen.getByTestId('button-filter');
+
+    userEvent.selectOptions(columnFilter, 'orbital_period');
+    userEvent.selectOptions(comparisonFilter, 'igual a');
+    userEvent.clear(valueFilter);
+    userEvent.type(valueFilter, '402'); 
+    userEvent.click(buttonFilter);
+
+    const planetBespin = await screen.findByText('Endor');
+    expect(planetBespin).toBeInTheDocument();
+    const TableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(TableHeaderName).toHaveLength(1);  
+  });
+
+  test('teste filtro numerico "menor que" selecionando surface_water', async () => {
+    const columnFilter = screen.getByTestId('column-filter');
+    const comparisonFilter = screen.getByTestId('comparison-filter');
+    const valueFilter = screen.getByTestId('value-filter');
+    const buttonFilter = screen.getByTestId('button-filter');
+
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    userEvent.clear(valueFilter);
+    userEvent.type(valueFilter, '12'); 
+    userEvent.click(buttonFilter);
+
+    const TableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(TableHeaderName).toHaveLength(5);  
+  });
+
   test('testa a classificação', async () => {
-    render(<App />);
-    await waitFor( async () => {
-      const columnSortButton = screen.getByTestId('column-sort-button');
-      const buttonRadioAsc = screen.getByTestId('column-sort-input-desc');
-      const buttonRadioDesc = screen.getByTestId('column-sort-input-desc');
-      userEvent.click(buttonRadioDesc);
-      userEvent.click(columnSortButton);
-      const DescTableHeaderName = await screen.findAllByTestId('planet-name');
-      expect(DescTableHeaderName).toHaveLength(10);
-      userEvent.click(buttonRadioAsc);
-      userEvent.click(columnSortButton);
-      const AscTableHeaderName = await screen.findAllByTestId('planet-name');
-      expect(AscTableHeaderName).toHaveLength(10);
-    }, { timeout: 5000 });
+    // render(<App />);
+    // await waitFor( async () => {
+    const columnSortButton = screen.getByTestId('column-sort-button');
+    const buttonRadioAsc = screen.getByTestId('column-sort-input-asc');
+    const buttonRadioDesc = screen.getByTestId('column-sort-input-desc');
+    userEvent.click(buttonRadioDesc);
+    userEvent.click(columnSortButton);
+    const DescTableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(DescTableHeaderName).toHaveLength(10);
+    userEvent.click(buttonRadioAsc);
+    userEvent.click(columnSortButton);
+    const AscTableHeaderName = await screen.findAllByTestId('planet-name');
+    expect(AscTableHeaderName).toHaveLength(10);
+    // }, { timeout: 2000 });
   });
 
 });
   
 // test('', () => {});
-// await waitFor( async () => {}, { timeout: 5000 });

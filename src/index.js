@@ -7,9 +7,7 @@ ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
     <PlanetContextProvider>
-
       <App />
-
     </PlanetContextProvider>,
 
   );
