@@ -31,7 +31,7 @@ function PlanetContextProvider({ children }) {
     response.forEach((element) => {
       delete element.residents;
     });
-    console.log('original', response);
+    // console.log('original', response);
     setPlanetsList(response);
     setOriginalPlanetList(response);
     setFilteredListPlanet(response);

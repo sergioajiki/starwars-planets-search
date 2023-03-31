@@ -64,9 +64,9 @@ function Filters() {
             onChange={ handleInputChange }
             id="selectOperator"
           >
-            <option>maior que</option>
-            <option>menor que</option>
-            <option>igual a</option>
+            <option data-testid="operator">maior que</option>
+            <option data-testid="operator">menor que</option>
+            <option data-testid="operator">igual a</option>
           </select>
         </label>
         <input
