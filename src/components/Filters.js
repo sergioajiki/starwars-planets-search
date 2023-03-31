@@ -47,6 +47,7 @@ function Filters() {
                 <option
                   key={ index }
                   value={ [tag] }
+                  data-testid="column-tag-num"
                 >
                   {[tag]}
                 </option>
@@ -136,7 +137,7 @@ function Filters() {
         </span>
         <button
           data-testid="column-sort-button"
-          onClick={ sortPlanetList }
+          onClick={ () => sortPlanetList(order.column, order.sort) }
         >
           Ordenar
         </button>

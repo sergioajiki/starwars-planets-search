@@ -1,26 +1,25 @@
-import React, { useContext } from 'react';
-import { PlanetContext } from './context/PlanetContextProvider';
-// import React, { useEffect, useState } from 'react';
-// import PlanetContext from './context/PlanetsContext';
+import React from 'react';
+import PlanetContextProvider from './context/PlanetContextProvider';
 import Table from './components/Table';
 import Filters from './components/Filters';
-// import { getInfoFromAPI } from './services/Apis';
 import './App.css';
 
 function App() {
-  const { isLoading } = useContext(PlanetContext);
+  // const { isLoading } = useContext(PlanetContext);
   return (
     <div className="appContainer">
-      <Filters />
-      <hr />
-      {
-        isLoading
-          ? <h1>Loading...</h1>
-          : (
-            <Table />
-          )
-      }
-
+      <PlanetContextProvider>
+        <Filters />
+        <hr />
+        <Table />
+        {/* {
+          isLoading
+            ? <h1>Loading...</h1>
+            : (
+              <Table />
+            )
+        } */}
+      </PlanetContextProvider>
     </div>
   );
 }

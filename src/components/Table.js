@@ -4,11 +4,7 @@ import '../styles/Table.css';
 
 function Table() {
   const {
-    // planetsList,
     filteredListPlanet,
-    // originalPlanetsList,
-    // formData,
-    // handleInputChange,
   } = useContext(PlanetContext);
 
   return (

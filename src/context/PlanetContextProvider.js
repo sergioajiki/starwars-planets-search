@@ -48,7 +48,6 @@ function PlanetContextProvider({ children }) {
   }
 
   function handleInputChange({ target }) {
-    // setFormData(target.value);
     const { name, value } = target;
     setFormData({
       ...formData,
@@ -57,8 +56,6 @@ function PlanetContextProvider({ children }) {
   }
 
   const recoverFilter = (selectColumn, previousList) => {
-    console.log(previousList);
-    console.log(filtersRemoved);
     const newFiltersRemoved = filtersRemoved
       .filter((elem) => elem.selectColumn !== selectColumn);
     setTagList([
@@ -66,8 +63,6 @@ function PlanetContextProvider({ children }) {
       selectColumn,
     ]);
     setFilteredListPlanet(previousList);
-
-    console.log(newFiltersRemoved);
     setFiltersRemoved(newFiltersRemoved);
   };
 
@@ -129,23 +124,24 @@ function PlanetContextProvider({ children }) {
     }
   };
 
-  const sortPlanetList = useCallback(() => {
-    console.log('vai ordenar', filteredListPlanet);
-    console.log(order.column);
-    if (order.sort === 'ASC') {
+  const sortPlanetList = useCallback((column, sort) => {
+    // console.log('vai ordenar', filteredListPlanet);
+    // console.log(column, sort);
+    if (sort === 'ASC') {
       const sortedList = filteredListPlanet
-        .sort((a, b) => parseInt(a[order.column], 10) - parseInt(b[order.column], 10));
-      console.log(sortedList);
+        .sort((a, b) => parseInt(a[column], 10) - parseInt(b[column], 10));
+      // console.log('ascendente', sortedList);
       setFilteredListPlanet(sortedList);
+      setPlanetsList(sortedList);
     }
-    if (order.sort === 'DESC') {
+    if (sort === 'DESC') {
       const sortedList = filteredListPlanet
-        .sort((a, b) => parseInt(b[order.column], 10) - parseInt(a[order.column], 10));
-      console.log(sortedList);
+        .sort((a, b) => parseInt(b[column], 10) - parseInt(a[column], 10));
+      // console.log('descendente', sortedList);
       setFilteredListPlanet(sortedList);
+      setPlanetsList(sortedList);
     }
-  }, [filteredListPlanet, order.column, order.sort]);
-  // }, [filteredListPlanet, order.column, order.sort]);
+  }, [filteredListPlanet]);
 
   useEffect(() => {
     getPlanetsInfos();
@@ -153,7 +149,7 @@ function PlanetContextProvider({ children }) {
 
   useEffect(() => {
     filterSearchByName();
-  });
+  }, [filterSearchByName]);
 
   useEffect(() => {
     sortPlanetList();
