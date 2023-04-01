@@ -24,14 +24,12 @@ function PlanetContextProvider({ children }) {
     selectOperator: 'maior que',
     selectComparisonValue: 0,
   });
-
   const getPlanetsInfos = async () => {
     setIsLoading(true);
     const response = await getInfoFromAPI();
     response.forEach((element) => {
       delete element.residents;
     });
-
     setPlanetsList(response);
     setOriginalPlanetList(response);
     setFilteredListPlanet(response);
@@ -73,13 +71,11 @@ function PlanetContextProvider({ children }) {
       selectComparisonValue: formData.selectComparisonValue,
       previousList: filteredListPlanet,
     };
-
     setFormData({
       ...formData,
       selectColumn: newTagList[0],
     });
     setTagList(newTagList);
-
     setFiltersRemoved([
       ...filtersRemoved,
       infosRemovedFilters,
@@ -134,7 +130,6 @@ function PlanetContextProvider({ children }) {
       setFilteredListPlanet(sortedList);
       setPlanetsList(sortedList);
     }
-
     if (sort === 'DESC') {
       const sortedList = filteredListPlanet
         .sort((a, b) => {

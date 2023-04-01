@@ -1,9 +1,15 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { getNodeText, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { 
+  getNodeText,
+  render,
+  screen,
+  // waitFor,
+  // waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { planetsApiSim } from './Mocks/planetApi';
 import PlanetContextProvider from '../context/PlanetContextProvider';
+import { planetsApiSim } from './Mocks/planetApi';
+// import { act } from 'react-dom/test-utils';
 import App from '../App';
 
 // jest.setTimeout(10000);
@@ -13,25 +19,18 @@ import App from '../App';
 // act (() => {})
 
 beforeEach(() => {
-// global.fetch = jest.fn().mockResolvedValue({
-//   json: jest.fn().mockResolvedValue(planetsApiSim)
-// })  
-
   jest.spyOn(global, 'fetch').mockResolvedValue({
     json: jest.fn().mockResolvedValue(planetsApiSim)
   }) 
- // render(
-  //   <PlanetContextProvider>
-  //      <App />
-  //   </PlanetContextProvider>
-  //  ) 
-
   render(<App />), {wrapper: PlanetContextProvider};  
-  // act (() => {
-  //  render(<App />), {wrapper: PlanetContextProvider};   
-  // }) 
- 
-// act (() => {})  
+// render(
+//   <PlanetContextProvider>
+//      <App />
+//   </PlanetContextProvider>
+//  ) 
+// act (() => {
+//  render(<App />), {wrapper: PlanetContextProvider};   
+// }) 
 // await waitForElementToBeRemoved(() => screen.queryByText('Loading...'))
 })
 
@@ -39,10 +38,8 @@ afterEach(() => {
   jest.resetAllMocks();
 })
  
-describe('testa o componente Table', () => {
+describe('testa a renderização do componente Table', () => {
   test('verifica se as colunas são renderizadas corretamente', () => {
-    // render(<App />);
-
     const tableHeader = screen.getAllByRole('columnheader').map(getNodeText);
     // console.log(tableHeader); 
     expect(tableHeader).toHaveLength(13)
@@ -55,11 +52,14 @@ describe('testa o componente Table', () => {
       expect(titleTableHeader).toBeInTheDocument();
     });
   });
+
+  test('verifica se a API é chamada', async () => {    
+    expect(global.fetch).toHaveBeenCalledWith('https://swapi.dev/api/planets');
+  });
 });
 
-describe('testa componente Filter', () => {
+describe('testa a renderização do componente Filter', () => {
   test('verifica se os seletores de filtro são renderizados', () => {
-    // render(<App />);
     const inputSearch = screen.getByTestId('name-filter');
     expect(inputSearch).toBeInTheDocument();
     const columnFilter = screen.getByTestId('column-filter');
@@ -82,9 +82,7 @@ describe('testa componente Filter', () => {
     expect(columnSortButton).toBeInTheDocument();
   });
 
-  test('Verifica os seletores de coluna filtros numericos', () => {
-    // render(<App />);
-    
+  test('Verifica os seletores de coluna filtros numericos', () => {    
     const optionsColumnTagNum = screen.getAllByTestId('column-tag-num').map(getNodeText);
     // console.log(optionsColumnTagNum);
     expect(optionsColumnTagNum).toHaveLength(5);
@@ -115,18 +113,12 @@ describe('testa componente Filter', () => {
 
     const resetOptionsColumnTagNum = screen.getAllByTestId('column-tag-num').map(getNodeText);
     expect(resetOptionsColumnTagNum).toHaveLength(5);
-    expect(resetOptionsColumnTagNum[0]).toBe('population')
-    
+    expect(resetOptionsColumnTagNum[0]).toBe('population')    
   });
 });
 
 describe('testa filtragem da tabela', () => {
-  test('verifica se a API é chamada', async () => {
-    expect(global.fetch).toHaveBeenCalledWith('https://swapi.dev/api/planets');
-  });
-
   test('testa busca por nome', async () => {
-    // render(<App />);
     // await waitFor( async() => {
     const tableHeaderName =  await screen.findAllByTestId('planet-name');
     // console.log(tableHeaderName.length);
@@ -135,13 +127,11 @@ describe('testa filtragem da tabela', () => {
     userEvent.type(inputSearch, 'oo')
 
     const newTableHeaderName = await screen.findAllByTestId('planet-name');
-    expect(newTableHeaderName).toHaveLength(2);
-     
+    expect(newTableHeaderName).toHaveLength(2);     
     // }, { timeout: 2000 });
   });  
 
   test('testa busca por nome 2', async() => {
-    // render(<App />);
     // await waitFor( async () => {
     const inputSearch = screen.getByTestId('name-filter');
     userEvent.type(inputSearch, 'Tatooine');
@@ -151,7 +141,6 @@ describe('testa filtragem da tabela', () => {
   });
 
   test('testa filtro numerico "maior que" selecionando diameter', async () => {
-    // render(<App />);
     // await waitFor( async () => {
     const columnFilter = screen.getByTestId('column-filter');
     const comparisonFilter = screen.getByTestId('comparison-filter');
@@ -169,7 +158,7 @@ describe('testa filtragem da tabela', () => {
     const TableHeaderName = await screen.findAllByTestId('planet-name');
     expect(TableHeaderName).toHaveLength(2);     
     // }, { timeout: 2000 });
-    });
+  });
 
   test('teste filtro numerico "igual a" selecionando orbital_period', async () => {
     const columnFilter = screen.getByTestId('column-filter');
@@ -206,7 +195,6 @@ describe('testa filtragem da tabela', () => {
   });
 
   test('testa a classificação', async () => {
-    // render(<App />);
     // await waitFor( async () => {
     const columnSortButton = screen.getByTestId('column-sort-button');
     const buttonRadioAsc = screen.getByTestId('column-sort-input-asc');
@@ -221,7 +209,6 @@ describe('testa filtragem da tabela', () => {
     expect(AscTableHeaderName).toHaveLength(10);
     // }, { timeout: 2000 });
   });
-
 });
   
 // test('', () => {});
